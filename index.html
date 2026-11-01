@@ -45,6 +45,7 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 .s-esim { background: linear-gradient(135deg, #065f46, #10b981); }
 .s-rides { background: linear-gradient(135deg, #b45309, #f59e0b); }
 .s-gifts { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+.s-hotels { background: linear-gradient(135deg, #831843, #db2777); }
 
 /* FOOTER */
 .footer { text-align: center; padding: 30px 0 15px 0; font-size: 12px; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 30px; }
@@ -94,9 +95,15 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
         <!-- Travel -->
         <div class="service-btn s-travel" onclick="openModal('travel')">
             <i class="fas fa-plane-departure"></i>
-            Flights & Hotels
+            Flights
         </div>
         
+        <!-- Hotels -->
+        <div class="service-btn s-hotels" onclick="openModal('hotels')">
+            <i class="fas fa-hotel"></i>
+            Hotels
+        </div>
+
         <!-- eSIM -->
         <div class="service-btn s-esim" onclick="openModal('esim')">
             <i class="fas fa-sim-card"></i>
@@ -135,9 +142,11 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
             
             <div class="affiliate-banner" id="modalPartner"></div>
             
+            <div id="apiResults" style="display:none; text-align:left; margin-bottom:15px;"></div>
+
             <!-- YAHAN AAPKA AFFILIATE LINK AAYEGA -->
             <a href="#" id="modalLink" target="_blank" class="action-btn">Continue to Secure Partner →</a>
-            <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:10px;">You will be redirected to our verified partner site to complete your booking securely.</p>
+            <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:10px;" id="redirectNote">You will be redirected to our verified partner site to complete your booking securely.</p>
         </div>
     </div>
 </div>
@@ -157,16 +166,24 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 
 <script>
 // ═══════════════════════════════════════════════════════════
-// SERVICE CONFIGURATION (Yahan aap apne links daal sakte hain)
+// ⚙️ BACKEND API URL (Yahan apna Cloudflare Worker ka URL daalein)
 // ═══════════════════════════════════════════════════════════
+const BACKEND_URL = 'https://nnlghaproglobal-travel-api.nnlgharpro.workers.dev';
+
 const SERVICES = {
     'travel': {
-        title: 'Flights & Hotels',
+        title: 'Flights',
         icon: 'fa-plane-departure',
-        desc: 'Book flights and hotels globally at the best prices. Powered by top travel partners.',
+        desc: 'Book flights globally at the best prices.',
         partner: '✅ 100% Secure Booking | Best Price Guaranteed',
-        // API wala link yahan add karein (aapka backend URL)
-        link: 'https://nnlgharpro-travel-api.nnlgharpro.workers.dev/flights?origin=DEL&destination=BOM'
+        link: '#'
+    },
+    'hotels': {
+        title: 'Hotels',
+        icon: 'fa-hotel',
+        desc: 'Book hotels globally at the best prices.',
+        partner: '✅ 100% Secure Booking | Best Price Guaranteed',
+        link: '#'
     },
     'esim': {
         title: 'eSIM & Data',
@@ -198,51 +215,73 @@ function showToast(msg) {
     setTimeout(() => t.style.display = 'none', 3000);
 }
 
-window.openModal = function(serviceKey) {
+window.openModal = async function(serviceKey) {
     const service = SERVICES[serviceKey];
     if (!service) return;
 
+    // Reset modal
     document.getElementById('modalTitle').innerHTML = `<i class="fas ${service.icon}"></i> ${service.title}`;
     document.getElementById('modalIcon').innerHTML = `<i class="fas ${service.icon}"></i>`;
     document.getElementById('modalDesc').textContent = service.desc;
     document.getElementById('modalPartner').textContent = service.partner;
-    
+    document.getElementById('apiResults').style.display = 'none';
+    document.getElementById('apiResults').innerHTML = '';
+    document.getElementById('modalLink').style.display = 'block';
+    document.getElementById('redirectNote').style.display = 'block';
+
     const linkElement = document.getElementById('modalLink');
     linkElement.href = service.link;
 
-    // Agar travel tab hai, toh API se data fetch karein
-    if (serviceKey === 'travel') {
-        document.getElementById('modalDesc').textContent = 'Fetching live flight prices...';
-        fetch('https://nnlgharpro-travel-api.nnlgharpro.workers.dev/flights?origin=DEL&destination=BOM')
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    let flights = data.data.flights || [];
-                    let html = '<div style="text-align:left;">';
-                    if (flights.length === 0) html += '<p>No flights found for this route.</p>';
-                    flights.forEach(f => {
-                        html += `<div style="background:rgba(255,255,255,0.1); padding:10px; border-radius:8px; margin-bottom:8px;">
-                            <div style="display:flex; justify-content:space-between;">
-                                <span>${f.airline || 'Airline'}</span>
-                                <span style="color:#4ECDC4; font-weight:bold;">${f.price || 'N/A'}</span>
-                            </div>
-                        </div>`;
-                    });
-                    html += '</div>';
-                    document.getElementById('modalDesc').innerHTML = html;
-                    // Link ko hide kar dein agar aap chahein toh
-                    document.getElementById('modalLink').style.display = 'none'; 
+    // Agar Travel ya Hotels hai, toh API se data fetch karein
+    if (serviceKey === 'travel' || serviceKey === 'hotels') {
+        document.getElementById('modalDesc').textContent = `Fetching live ${service.title.toLowerCase()} prices...`;
+        document.getElementById('apiResults').style.display = 'block';
+        document.getElementById('modalLink').style.display = 'none';
+        document.getElementById('redirectNote').style.display = 'none';
+
+        let endpoint = serviceKey === 'travel' ? '/flights?origin=DEL&destination=BOM' : '/hotels?city=Delhi';
+        
+        try {
+            const res = await fetch(`${BACKEND_URL}${endpoint}`);
+            const data = await res.json();
+            
+            if (data.success) {
+                let items = serviceKey === 'travel' ? data.data.flights : data.data.hotels;
+                let html = '';
+                
+                if (!items || items.length === 0) {
+                    html = '<p style="text-align:center;color:rgba(255,255,255,0.5);">No results found for this route.</p>';
                 } else {
-                    document.getElementById('modalDesc').textContent = 'Could not fetch flights. Try again.';
+                    items.forEach(item => {
+                        if (serviceKey === 'travel') {
+                            html += `<div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.1);">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                    <span style="font-weight:600;">${item.airline}</span>
+                                    <span style="color:#4ECDC4; font-weight:800;">₹${item.price}</span>
+                                </div>
+                                <div style="font-size:11px; color:rgba(255,255,255,0.5);">Flight: ${item.flight_number} • ${item.departure_at ? item.departure_at.split('T')[0] : 'N/A'}</div>
+                            </div>`;
+                        } else {
+                            html += `<div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.1);">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                    <span style="font-weight:600;">${item.name}</span>
+                                    <span style="color:#4ECDC4; font-weight:800;">${item.price}</span>
+                                </div>
+                                <div style="font-size:11px; color:rgba(255,255,255,0.5);">Rating: ⭐ ${item.rating}</div>
+                            </div>`;
+                        }
+                    });
                 }
-            })
-            .catch(e => {
-                document.getElementById('modalDesc').textContent = 'Error fetching flights.';
-            });
-    } else {
-        document.getElementById('modalLink').style.display = 'block';
+                document.getElementById('apiResults').innerHTML = html;
+                document.getElementById('modalDesc').textContent = `Live ${service.title} Results:`;
+            } else {
+                document.getElementById('apiResults').innerHTML = `<p style="color:#FF4757; text-align:center;">Error: ${data.error || 'Could not fetch data'}</p>`;
+            }
+        } catch (e) {
+            document.getElementById('apiResults').innerHTML = `<p style="color:#FF4757; text-align:center;">Network Error. Please try again later.</p>`;
+        }
     }
-    
+
     document.getElementById('serviceModal').classList.add('show');
 };
 
