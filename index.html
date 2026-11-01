@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>NnlGharPro Global - Travel & Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="manifest" href="manifest.json">
+
+<!-- Travelpayouts Tracking Script -->
+<script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1" data-cmp-ab="2">
+  (function () {
+      var script = document.createElement("script");
+      script.async = 1;
+      script.setAttribute("data-cmp-ab","2");
+      script.src = 'https://tp-em.com/NTQ4NjY0.js?t=548664';
+      document.head.appendChild(script);
+  })();
+</script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; padding: 12px; color: #fff; -webkit-user-select: none; user-select: none; }
+.container { max-width: 480px; margin: 0 auto; }
+
+/* HEADER */
+.header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+.logo-text { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #4ECDC4, #44B3A8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.user-info { font-size: 12px; background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.1); }
+
+/* BANNER */
+.banner { background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(68,179,168,0.05)); border: 1px solid rgba(78,205,196,0.2); border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center; }
+.banner h2 { font-size: 18px; margin-bottom: 8px; color: #fff; }
+.banner p { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+/* SERVICES */
+.section-title { font-size: 18px; font-weight: 700; margin: 20px 0 15px; display: flex; align-items: center; gap: 8px; }
+.section-title i { color: #4ECDC4; }
+.service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.service-btn { border-radius: 16px; padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); }
+.service-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+.service-btn i { font-size: 32px; margin-bottom: 12px; }
+.s-travel { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+.s-esim { background: linear-gradient(135deg, #065f46, #10b981); }
+.s-rides { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.s-gifts { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+
+/* FOOTER */
+.footer { text-align: center; padding: 30px 0 15px 0; font-size: 12px; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 30px; }
+.footer p { margin-bottom: 5px; }
+
+/* MODALS */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 16px; }
+.modal-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal-box { background: #1a1a2e; padding: 24px; border-radius: 20px; max-width: 400px; width: 100%; border: 1px solid rgba(255,255,255,0.1); text-align: center; animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.modal-header h3 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+.close-btn { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 22px; cursor: pointer; transition: 0.3s; }
+.close-btn:hover { color: #FF4757; }
+.affiliate-banner { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 13px; color: rgba(78,205,196,0.9); border: 1px dashed rgba(78,205,196,0.3); }
+.action-btn { display: inline-block; width: 100%; padding: 16px; background: linear-gradient(135deg, #4ECDC4, #44B3A8); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px; transition: 0.3s; border: none; cursor: pointer; }
+.action-btn:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(78,205,196,0.4); }
+
+/* TOAST */
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); color: #fff; padding: 12px 24px; border-radius: 30px; display: none; font-size: 14px; z-index: 10000; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+
+/* PWA BANNER */
+#pwa-banner { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a2e; border: 1px solid #4ECDC4; padding: 15px; border-radius: 15px; z-index: 99999; width: 90%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="container">
+    <div class="header">
+        <div class="logo-text">🌍 NnlGharPro Global</div>
+        <div class="user-info">
+            <i class="fas fa-globe" style="color:#4ECDC4;"></i> International
+        </div>
+    </div>
+
+    <div class="banner">
+        <h2>Welcome to NnlGharPro Global</h2>
+        <p>Your one-stop app for worldwide travel, connectivity, and digital services.</p>
+    </div>
+
+    <div class="section-title"><i class="fas fa-plane"></i> Explore Global Services</div>
+    
+    <div class="service-grid">
+        <!-- Travel -->
+        <div class="service-btn s-travel" onclick="openModal('travel')">
+            <i class="fas fa-plane-departure"></i>
+            Flights & Hotels
+        </div>
+        
+        <!-- eSIM -->
+        <div class="service-btn s-esim" onclick="openModal('esim')">
+            <i class="fas fa-sim-card"></i>
+            eSIM & Data
+        </div>
+        
+        <!-- Rides -->
+        <div class="service-btn s-rides" onclick="openModal('rides')">
+            <i class="fas fa-car"></i>
+            Rides & Delivery
+        </div>
+        
+        <!-- Gift Cards -->
+        <div class="service-btn s-gifts" onclick="openModal('gifts')">
+            <i class="fas fa-gift"></i>
+            Gift Cards
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Managed by Randhawa Enterprises</p>
+        <p>© 2026 NnlGharPro Global. All rights reserved.</p>
+    </div>
+</div>
+
+<!-- DYNAMIC MODAL -->
+<div class="modal-overlay" id="serviceModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="modalTitle"><i class="fas fa-plane"></i> Service</h3>
+            <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div id="modalIcon" style="font-size: 48px; color: #4ECDC4; margin-bottom: 15px;"></div>
+            <p id="modalDesc" style="font-size: 14px; color: #fff; margin-bottom: 10px; line-height: 1.5;"></p>
+            
+            <div class="affiliate-banner" id="modalPartner"></div>
+            
+            <!-- YAHAN AAPKA AFFILIATE LINK AAYEGA -->
+            <a href="#" id="modalLink" target="_blank" class="action-btn">Continue to Secure Partner →</a>
+            <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:10px;">You will be redirected to our verified partner site to complete your booking securely.</p>
+        </div>
+    </div>
+</div>
+
+<!-- PWA INSTALL BANNER (iPhone) -->
+<div id="pwa-banner">
+    <div style="font-size:14px; color:#fff; margin-bottom:10px;">
+        <i class="fab fa-apple" style="color:#fff; font-size:20px; margin-bottom:5px;"></i><br>
+        <strong>Install NnlGharPro Global App</strong><br>
+        <span style="font-size:12px; color:rgba(255,255,255,0.6);">
+            1. Safari mein <i class="fas fa-arrow-up-from-bracket"></i> (Share) dabayein.<br>
+            2. <strong>"Add to Home Screen"</strong> select karein.
+        </span>
+    </div>
+    <button onclick="document.getElementById('pwa-banner').style.display='none'" style="background:#4ECDC4; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:bold; cursor:pointer;">Got it!</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// SERVICE CONFIGURATION (Yahan aap apne links daal sakte hain)
+// ═══════════════════════════════════════════════════════════
+const SERVICES = {
+    'travel': {
+        title: 'Flights & Hotels',
+        icon: 'fa-plane-departure',
+        desc: 'Book flights and hotels globally at the best prices. Powered by top travel partners.',
+        partner: '✅ 100% Secure Booking | Best Price Guaranteed',
+        // API wala link yahan add karein (aapka backend URL)
+        link: 'https://nnlgharpro-travel-api.nnlgharpro.workers.dev/flights?origin=DEL&destination=BOM'
+    },
+    'esim': {
+        title: 'eSIM & Data',
+        icon: 'fa-sim-card',
+        desc: 'Stay connected anywhere in the world with instant eSIM. No roaming charges!',
+        partner: '✅ 100% Secure | Instant Activation',
+        link: 'https://www.airalo.com'
+    },
+    'rides': {
+        title: 'Rides & Delivery',
+        icon: 'fa-car',
+        desc: 'Book rides and food delivery in 180+ countries with a single tap.',
+        partner: '✅ 24/7 Support | Safe Rides',
+        link: 'https://elife.com'
+    },
+    'gifts': {
+        title: 'Gift Cards',
+        icon: 'fa-gift',
+        desc: 'Buy global gift cards and mobile top-ups instantly from anywhere.',
+        partner: '✅ Instant Delivery | 100% Secure',
+        link: 'https://www.bitrefill.com'
+    }
+};
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 3000);
+}
+
+window.openModal = function(serviceKey) {
+    const service = SERVICES[serviceKey];
+    if (!service) return;
+
+    document.getElementById('modalTitle').innerHTML = `<i class="fas ${service.icon}"></i> ${service.title}`;
+    document.getElementById('modalIcon').innerHTML = `<i class="fas ${service.icon}"></i>`;
+    document.getElementById('modalDesc').textContent = service.desc;
+    document.getElementById('modalPartner').textContent = service.partner;
+    
+    const linkElement = document.getElementById('modalLink');
+    linkElement.href = service.link;
+
+    // Agar travel tab hai, toh API se data fetch karein
+    if (serviceKey === 'travel') {
+        document.getElementById('modalDesc').textContent = 'Fetching live flight prices...';
+        fetch('https://nnlgharpro-travel-api.nnlgharpro.workers.dev/flights?origin=DEL&destination=BOM')
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    let flights = data.data.flights || [];
+                    let html = '<div style="text-align:left;">';
+                    if (flights.length === 0) html += '<p>No flights found for this route.</p>';
+                    flights.forEach(f => {
+                        html += `<div style="background:rgba(255,255,255,0.1); padding:10px; border-radius:8px; margin-bottom:8px;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <span>${f.airline || 'Airline'}</span>
+                                <span style="color:#4ECDC4; font-weight:bold;">${f.price || 'N/A'}</span>
+                            </div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                    document.getElementById('modalDesc').innerHTML = html;
+                    // Link ko hide kar dein agar aap chahein toh
+                    document.getElementById('modalLink').style.display = 'none'; 
+                } else {
+                    document.getElementById('modalDesc').textContent = 'Could not fetch flights. Try again.';
+                }
+            })
+            .catch(e => {
+                document.getElementById('modalDesc').textContent = 'Error fetching flights.';
+            });
+    } else {
+        document.getElementById('modalLink').style.display = 'block';
+    }
+    
+    document.getElementById('serviceModal').classList.add('show');
+};
+
+window.closeModal = function() {
+    document.getElementById('serviceModal').classList.remove('show');
+};
+
+document.getElementById('serviceModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// PWA Install Logic (For iPhone)
+function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+function isInStandaloneMode() { return ('standalone' in window.navigator) && (window.navigator.standalone); }
+
+if (isIOS() && !isInStandaloneMode()) {
+    setTimeout(() => {
+        document.getElementById('pwa-banner').style.display = 'block';
+    }, 3000);
+}
+</script>
+</body>
+</html>
