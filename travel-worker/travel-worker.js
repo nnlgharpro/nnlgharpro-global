@@ -1,6 +1,8 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    
+    // CORS Headers taaki aapki app isko access kar sake
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -11,7 +13,7 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // ✈️ FLIGHTS ROUTE
+    // ✈️ FLIGHTS ROUTE (Asli Travelpayouts Data)
     if (url.pathname === '/flights') {
       const origin = url.searchParams.get('origin') || 'DEL';
       const destination = url.searchParams.get('destination') || 'BOM';
@@ -25,46 +27,41 @@ export default {
             for (const key in apiData.data) {
                 if (apiData.data.hasOwnProperty(key)) {
                     flights.push({
-                        airline: apiData.data[key].airline || 'Unknown',
+                        airline: apiData.data[key].airline || 'Unknown Airline',
                         price: apiData.data[key].price || 0,
                         departure_at: apiData.data[key].departure_at || '',
-                        flight_number: apiData.data[key].flight_number || ''
+                        flight_number: apiData.data[key].flight_number || '',
+                        link: apiData.data[key].link || ''
                     });
                 }
             }
         }
+
         return new Response(JSON.stringify({ success: true, data: { flights: flights } }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       } catch (e) {
         return new Response(JSON.stringify({ success: false, error: e.message }), {
-          status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
     }
 
-    // 🏨 HOTELS ROUTE (Jab aapko access milega tab kaam karega)
+    // 🏨 HOTELS ROUTE (Abhi Test Data Hai)
     if (url.pathname === '/hotels') {
       const city = url.searchParams.get('city') || 'Delhi';
       
-      try {
-        // Note: Yeh Travelpayouts ki Hotel API ka endpoint hai. 
-        // Abhi ke liye yeh dummy data bhejega kyunki aapke paas access nahi hai.
-        // Jab access milega, tab isko real API se replace kar denge.
-        
-        let hotels = [
-            { name: "The Grand Hotel", price: "₹4,500", rating: "4.5" },
-            { name: "City Palace Stay", price: "₹2,800", rating: "4.2" }
-        ];
+      // Jab Travelpayouts Hotel API ka access mil jaye, tab yahan asli API call laga denge
+      let hotels = [
+        { name: "The Grand Palace", price: "₹4,500", rating: "4.5", city: city },
+        { name: "City Inn", price: "₹2,800", rating: "4.2", city: city },
+        { name: "Luxury Stay", price: "₹6,000", rating: "4.8", city: city }
+      ];
 
-        return new Response(JSON.stringify({ success: true, data: { hotels: hotels } }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
-      } catch (e) {
-        return new Response(JSON.stringify({ success: false, error: e.message }), {
-          status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
-      }
+      return new Response(JSON.stringify({ success: true, data: { hotels: hotels } }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     return new Response('Route not found', { status: 404, headers: corsHeaders });
