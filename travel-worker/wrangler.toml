@@ -1,0 +1,9 @@
+name = "nnlgharpro-travel-api"
+main = "travel-worker.js"
+compatibility_date = "2024-10-01"
+
+[vars]
+TRAVELPAYOUTS_TOKEN = "5bb216b419d62c3a7571535e02a664"
+
+[build]
+command = ""
