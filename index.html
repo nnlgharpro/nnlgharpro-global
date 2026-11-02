@@ -3,78 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<title>NnlGharPro Global - Travel & Services</title>
+<title>NnlGharPro - Book Trusted Services in India</title>
+<meta name="google-site-verification" content="w6qm7tonraRh8hHgflqJmZaubqzFv7_CYz-vrh1Zbmw" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <link rel="manifest" href="manifest.json">
 
-<!-- Travelpayouts Tracking Script -->
-<script nowprocket data-noptimize="1" data-cfasync="false" data-wpfc-render="false" seraph-accel-crit="1" data-no-defer="1" data-cmp-ab="2">
-  (function () {
-      var script = document.createElement("script");
-      script.async = 1;
-      script.setAttribute("data-cmp-ab","2");
-      script.src = 'https://tp-em.com/NTQ4NjY0.js?t=548664';
-      document.head.appendChild(script);
-  })();
-</script>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; padding: 12px; color: #fff; -webkit-user-select: none; user-select: none; }
+input, textarea, select { -webkit-user-select: text; user-select: text; }
 .container { max-width: 480px; margin: 0 auto; }
 
-/* HEADER */
-.header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
-.logo-text { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #4ECDC4, #44B3A8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.user-info { font-size: 12px; background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.1); }
+/* LOGIN */
+.login-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+.login-overlay.hidden { display: none; }
+.login-box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; max-width: 350px; width: 100%; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+.login-box h2 { font-size: 24px; margin-bottom: 20px; }
+.login-box input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none; }
+.login-box input:focus { border-color: #FF6B35; }
+.login-box .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, #FF6B35, #FF8C42); border: none; border-radius: 10px; color: #fff; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 5px; transition: 0.3s; }
+.login-box .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
+.login-box .btn-secondary { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-weight: 600; cursor: pointer; margin-top: 5px; transition: 0.3s; }
+.login-box .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+.login-box .login-error { color: #FF4757; font-size: 12px; margin-top: 5px; display: none; word-break: break-word; }
+.login-box .auth-toggle { color: rgba(255,255,255,0.4); font-size: 12px; cursor: pointer; margin-top: 10px; display: block; transition: 0.3s; }
+.login-box .auth-toggle:hover { color: #FF6B35; }
+.login-box .login-sub-text { color: rgba(255,255,255,0.5); margin-bottom: 20px; }
 
-/* BANNER */
-.banner { background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(68,179,168,0.05)); border: 1px solid rgba(78,205,196,0.2); border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center; }
-.banner h2 { font-size: 18px; margin-bottom: 8px; color: #fff; }
-.banner p { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+/* HEADER */
+#mainApp { display: none; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; flex-wrap: wrap; gap: 10px; }
+.logo-text { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #FF6B35, #FFD93D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.user-info { font-size: 12px; background: rgba(255,255,255,0.05); padding: 4px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
+.user-info button { background: #FF4757; border: none; color: #fff; padding: 4px 12px; border-radius: 12px; cursor: pointer; font-size: 10px; font-weight: 600; }
+
+/* ALERT BAR */
+.alert-bar { background: rgba(255,255,255,0.04); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 10px 14px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.alert-bar .left { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #FF6B35; }
+.alert-bar .left i { color: #4ECDC4; }
 
 /* SERVICES */
-.section-title { font-size: 18px; font-weight: 700; margin: 20px 0 15px; display: flex; align-items: center; gap: 8px; }
-.section-title i { color: #4ECDC4; }
-.service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-.service-btn { border-radius: 16px; padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); }
-.service-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-.service-btn i { font-size: 32px; margin-bottom: 12px; }
+.section-title { font-size: 18px; font-weight: 700; margin: 15px 0 10px; display: flex; align-items: center; gap: 8px; }
+.section-title i { color: #FF6B35; }
+.service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.service-btn { border-radius: 16px; padding: 20px 5px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 11px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90px; }
+.service-btn:hover { transform: translateY(-3px); }
+.service-btn i { font-size: 26px; margin-bottom: 8px; }
+.s-recharge { background: linear-gradient(135deg, #5F259F, #8B5CF6); }
+.s-grocery { background: linear-gradient(135deg, #0077b6, #00b4d8); }
+.s-fashion { background: linear-gradient(135deg, #f77f00, #fcbf49); }
+.s-electronics { background: linear-gradient(135deg, #2a9d8f, #52b788); }
+.s-home-decor { background: linear-gradient(135deg, #9b5de5, #f15bb5); }
+.s-beauty { background: linear-gradient(135deg, #ef476f, #ff6b6b); }
+.s-health { background: linear-gradient(135deg, #118ab2, #06d6a0); }
+.s-food-restaurant { background: linear-gradient(135deg, #e63946, #f4a261); }
+.s-insurance { background: linear-gradient(135deg, #0d47a1, #1976d2); }
+.s-immigration { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+.s-services { background: linear-gradient(135deg, #e85d04, #dc2f02); }
 
-/* Colors */
-.s-flights { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
-.s-hotels { background: linear-gradient(135deg, #831843, #db2777); }
-.s-esim { background: linear-gradient(135deg, #065f46, #10b981); }
-.s-transfers { background: linear-gradient(135deg, #b45309, #f59e0b); }
-.s-cars { background: linear-gradient(135deg, #4c1d95, #8b5cf6); }
-.s-activities { background: linear-gradient(135deg, #9f1239, #f43f5e); }
-.s-help { background: linear-gradient(135deg, #1f2937, #4b5563); }
-.s-gifts { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
-
-/* FOOTER */
-.footer { text-align: center; padding: 30px 0 15px 0; font-size: 12px; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 30px; }
-.footer p { margin-bottom: 5px; }
-
-/* MODALS */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 16px; }
-.modal-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.modal-box { background: #1a1a2e; padding: 24px; border-radius: 20px; max-width: 420px; width: 100%; border: 1px solid rgba(255,255,255,0.1); text-align: center; animation: slideUp 0.3s ease; max-height: 85vh; overflow-y: auto; }
-@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.modal-header h3 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-.close-btn { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 22px; cursor: pointer; transition: 0.3s; }
-.close-btn:hover { color: #FF4757; }
-.partner-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; text-align: left; }
-.partner-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; text-decoration: none; color: #fff; }
-.partner-item:hover { background: rgba(255,255,255,0.08); border-color: #4ECDC4; }
-.partner-info .p-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; display: block; }
-.partner-info .p-desc { font-size: 11px; color: rgba(255,255,255,0.5); }
-.partner-arrow { color: #4ECDC4; font-size: 18px; }
+/* FOOTER & CONTACT */
+.footer { text-align: center; padding: 20px 0; border-top: 2px solid rgba(78, 205, 196, 0.15); margin-top: 20px; }
+.footer p { font-size: 13px; color: rgba(255, 255, 255, 0.8); margin-bottom: 8px; }
+.footer .brand-highlight { color: #4ECDC4; font-weight: 800; }
+.contact-info { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-top: 15px; text-align: left; font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.6; border: 1px solid rgba(255,255,255,0.05); }
+.contact-info strong { color: #FFD93D; display: block; margin-bottom: 5px; font-size: 13px; }
+.contact-info a { color: #4ECDC4; text-decoration: none; }
 
 /* TOAST */
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); color: #fff; padding: 12px 24px; border-radius: 30px; display: none; font-size: 14px; z-index: 10000; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); color: #fff; padding: 12px 24px; border-radius: 30px; display: none; font-size: 14px; z-index: 10000; border: 1px solid rgba(255,255,255,0.05); text-align: center; max-width: 90%; }
+.toast.success { border-color: rgba(78,205,196,0.3); }
+.toast.error { border-color: rgba(255,71,87,0.3); }
 
 /* PWA BANNER */
 #pwa-banner { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a2e; border: 1px solid #4ECDC4; padding: 15px; border-radius: 15px; z-index: 99999; width: 90%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
@@ -84,64 +89,63 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 
 <div class="toast" id="toast"></div>
 
-<div class="container">
-    <div class="header">
-        <div class="logo-text">🌍 NnlGharPro Global</div>
-        <div class="user-info">
-            <i class="fas fa-globe" style="color:#4ECDC4;"></i> Worldwide
-        </div>
-    </div>
-
-    <div class="banner">
-        <h2>Your Global Travel Partner</h2>
-        <p>Book flights, hotels, activities, and more from anywhere in the world.</p>
-    </div>
-
-    <div class="section-title"><i class="fas fa-plane"></i> Explore Services</div>
-    
-    <div class="service-grid">
-        <div class="service-btn s-flights" onclick="openCategory('flights')">
-            <i class="fas fa-plane-departure"></i> Flights
-        </div>
-        <div class="service-btn s-hotels" onclick="openCategory('hotels')">
-            <i class="fas fa-hotel"></i> Hotels
-        </div>
-        <div class="service-btn s-esim" onclick="openCategory('esim')">
-            <i class="fas fa-sim-card"></i> eSIM & Data
-        </div>
-        <div class="service-btn s-transfers" onclick="openCategory('transfers')">
-            <i class="fas fa-shuttle-van"></i> Transfers
-        </div>
-        <div class="service-btn s-cars" onclick="openCategory('cars')">
-            <i class="fas fa-car"></i> Car Rentals
-        </div>
-        <div class="service-btn s-activities" onclick="openCategory('activities')">
-            <i class="fas fa-ticket-alt"></i> Activities
-        </div>
-        <div class="service-btn s-help" onclick="openCategory('help')">
-            <i class="fas fa-life-ring"></i> Travel Help
-        </div>
-        <div class="service-btn s-gifts" onclick="openCategory('gifts')">
-            <i class="fas fa-gift"></i> Gift Cards
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>Managed by Randhawa Enterprises</p>
-        <p>© 2026 NnlGharPro Global. All rights reserved.</p>
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <h2>🏠 NnlGharPro</h2>
+        <p class="login-sub-text">Login to book trusted services</p>
+        <input type="email" id="loginEmail" placeholder="Email Address">
+        <input type="password" id="loginPassword" placeholder="Password (min 6 chars)">
+        <button class="btn-primary" id="loginBtn" onclick="loginUser()"><i class="fas fa-lock"></i> Login</button>
+        <span class="auth-toggle" id="authToggle" onclick="toggleAuthMode()">Don't have an account? <strong style="color:#FF6B35;">Create Account</strong></span>
+        <div style="margin-top:15px;"><button class="btn-secondary" id="googleLoginBtn" onclick="googleLogin()"><i class="fab fa-google" style="color:#EA4335;"></i> Continue with Google</button></div>
+        <div class="login-error" id="loginError">❌ Invalid credentials</div>
+        <p style="font-size:10px; color:rgba(255,255,255,0.1); margin-top:12px;">🔒 Secure • Powered by NnlGharPro</p>
     </div>
 </div>
 
-<!-- DYNAMIC MODAL -->
-<div class="modal-overlay" id="serviceModal">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3 id="modalTitle"><i class="fas fa-plane"></i> Select Partner</h3>
-            <button class="close-btn" onclick="closeModal()">✕</button>
+<!-- MAIN APP -->
+<div class="container" id="mainApp">
+    <div class="header">
+        <div class="logo-text">🏠 NnlGharPro</div>
+        <div class="user-info" id="userInfo">
+            <span id="userEmailDisplay">user@nnlgharpro.in</span>
+            <button onclick="logoutUser()">Logout</button>
         </div>
-        <p style="font-size:12px; color:rgba(255,255,255,0.5); margin-bottom:15px; text-align:left;">Choose your preferred partner. You will be redirected to their secure booking page.</p>
-        <div class="partner-list" id="partnerList">
-            <!-- Partners will be dynamically added here -->
+    </div>
+
+    <div class="alert-bar">
+        <div class="left"><i class="fas fa-calendar-alt"></i> <span id="currentDate">Loading...</span></div>
+        <div class="right">
+            <div class="time"><i class="fas fa-clock"></i> <span id="currentTime">--:-- --</span></div>
+        </div>
+    </div>
+
+    <div class="section-title"><i class="fas fa-tools" style="color:#FF6B35;"></i> Select Service</div>
+    <div class="service-grid">
+        <div class="service-btn s-recharge" onclick="showToast('Recharge service coming soon!')"><i class="fas fa-mobile-alt"></i> Recharge</div>
+        <div class="service-btn s-insurance" onclick="showToast('Insurance service coming soon!')"><i class="fas fa-shield-alt"></i> Insurance</div>
+        <div class="service-btn s-food-restaurant" onclick="showToast('Food ONDC integration in progress!')"><i class="fas fa-utensils"></i> Food</div>
+        <div class="service-btn s-grocery" onclick="showToast('Grocery ONDC integration in progress!')"><i class="fas fa-shopping-basket"></i> Grocery</div>
+        <div class="service-btn s-fashion" onclick="showToast('Fashion ONDC integration in progress!')"><i class="fas fa-tshirt"></i> Fashion</div>
+        <div class="service-btn s-immigration" onclick="showToast('Immigration service coming soon!')"><i class="fas fa-passport"></i> Immigration</div>
+        <div class="service-btn s-services" onclick="showToast('Local services coming soon!')"><i class="fas fa-wrench"></i> Services</div>
+        <div class="service-btn s-health" onclick="showToast('Health services coming soon!')"><i class="fas fa-heartbeat"></i> Health</div>
+        <div class="service-btn s-electronics" onclick="showToast('Electronics ONDC integration in progress!')"><i class="fas fa-laptop"></i> Electronics</div>
+    </div>
+
+    <div class="footer">
+        <p>Managed by <span class="brand-highlight">Randhawa Enterprises</span></p>
+        <p>Director: <strong>Gaganjeet Singh</strong></p>
+        
+        <div class="contact-info">
+            <strong><i class="fas fa-map-marker-alt"></i> Head Office:</strong>
+            97/C, Moh. Gurunanakpura, Near Chota Gurudwara,<br>
+            Purani Mandi Road, Narnaul, Haryana - 123001
+            <br><br>
+            <strong><i class="fas fa-phone"></i> Contact Us:</strong>
+            📱 <a href="tel:+919588562553">+91 95885 62553</a><br>
+            📧 <a href="mailto:nnlgharpro@gmail.com">nnlgharpro@gmail.com</a>
         </div>
     </div>
 </div>
@@ -150,7 +154,7 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 <div id="pwa-banner">
     <div style="font-size:14px; color:#fff; margin-bottom:10px;">
         <i class="fab fa-apple" style="color:#fff; font-size:20px; margin-bottom:5px;"></i><br>
-        <strong>Install NnlGharPro Global App</strong><br>
+        <strong>Install NnlGharPro App</strong><br>
         <span style="font-size:12px; color:rgba(255,255,255,0.6);">
             1. Safari mein <i class="fas fa-arrow-up-from-bracket"></i> (Share) dabayein.<br>
             2. <strong>"Add to Home Screen"</strong> select karein.
@@ -160,109 +164,120 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// 🔗 PARTNER LINKS (Yahan aap apne saare 22 links daal sakte hain)
-// ═══════════════════════════════════════════════════════════
-const PARTNERS = {
-    'flights': [
-        { name: 'Aviasales', desc: 'Search and book cheap flights worldwide', link: 'https://aviasales.tp.st/1aY8so1f', icon: 'fa-plane' },
-        { name: 'Kiwitaxi', desc: 'Airport transfers and taxis', link: 'https://kiwitaxi.tp.st/pStXEaav', icon: 'fa-taxi' }
-    ],
-    'hotels': [
-        { name: 'Klook', desc: 'Hotels, activities and more', link: 'https://klook.tp.st/0q4aFwQZ', icon: 'fa-hotel' },
-        { name: 'Kkday', desc: 'Asia hotels and experiences', link: 'https://kkday.tp.st/FgcGAHH6', icon: 'fa-bed' }
-    ],
-    'esim': [
-        { name: 'Airalo', desc: 'World\'s largest eSIM store', link: 'https://airalo.tp.st/gtaOTTYD', icon: 'fa-sim-card' },
-        { name: 'Yesim', desc: 'Global eSIM data plans', link: 'https://yesim.tp.st/hLLvYRAi', icon: 'fa-wifi' },
-        { name: 'Saily', desc: 'Instant eSIM for travelers', link: 'https://saily.tp.st/Ww4HXtfc', icon: 'fa-globe' },
-        { name: 'Drimsim', desc: '197 countries eSIM', link: 'https://drimsim.tp.st/W9rS2EYx', icon: 'fa-signal' }
-    ],
-    'transfers': [
-        { name: 'Kiwitaxi', desc: 'Private airport transfers', link: 'https://kiwitaxi.tp.st/pStXEaav', icon: 'fa-shuttle-van' },
-        { name: 'GetTransfer', desc: '150+ countries transfers', link: 'https://gettransfer.tp.st/DOeIsXxA', icon: 'fa-car-side' }
-    ],
-    'cars': [
-        { name: 'Localrent', desc: 'Local car rentals', link: 'https://localrent.tp.st/J8jL1XqQ', icon: 'fa-car' },
-        { name: 'GetRentacar', desc: 'Car rental marketplace', link: 'https://getrentacar.tp.st/1nqRaSLJ', icon: 'fa-key' },
-        { name: 'EconomyBookings', desc: 'International car rentals', link: 'https://economybookings.tp.st/3jCWKEPj', icon: 'fa-car' },
-        { name: 'AutoEurope', desc: 'Car rental in Europe', link: 'https://autoeurope.tp.st/bnPCZYiR', icon: 'fa-road' },
-        { name: 'Qeeq', desc: 'Global car rental deals', link: 'https://qeeq.tp.st/aGB22JKY', icon: 'fa-car' },
-        { name: 'BikesBooking', desc: 'Bike rentals worldwide', link: 'https://bikesbooking.tp.st/H9nx54zj', icon: 'fa-motorcycle' }
-    ],
-    'activities': [
-        { name: 'Klook', desc: 'Tours, tickets & activities', link: 'https://klook.tp.st/0q4aFwQZ', icon: 'fa-ticket-alt' },
-        { name: 'Tiqets', desc: 'Museum & attraction tickets', link: 'https://tiqets.tp.st/Y6iqtPd5', icon: 'fa-ticket-alt' },
-        { name: 'GoCity', desc: 'Multi-city attraction passes', link: 'https://gocity.tp.st/pZd4BwLm', icon: 'fa-city' },
-        { name: 'Kkday', desc: 'Asia tours and experiences', link: 'https://kkday.tp.st/FgcGAHH6', icon: 'fa-map-marked-alt' },
-        { name: 'Intui', desc: 'Travel services & transfers', link: 'https://intui.tp.st/9DnIQwKk', icon: 'fa-concierge-bell' }
-    ],
-    'help': [
-        { name: 'AirHelp', desc: 'Flight delay compensation', link: 'https://airhelp.tp.st/JVoFm2a6', icon: 'fa-plane-slash' },
-        { name: 'Compensair', desc: 'Flight cancellation compensation', link: 'https://compensair.tp.st/4pdFQqae', icon: 'fa-exclamation-triangle' },
-        { name: 'RadicalStorage', desc: 'Luggage storage worldwide', link: 'https://radicalstorage.tp.st/ZatX1AgP', icon: 'fa-suitcase' }
-    ],
-    'gifts': [
-        { name: 'Klook', desc: 'Gift cards and experiences', link: 'https://klook.tp.st/0q4aFwQZ', icon: 'fa-gift' }
-    ]
+// ════════════════════════════════════════════════════════════
+// FIREBASE SETUP
+// ════════════════════════════════════════════════════════════
+const firebaseConfig = {
+    apiKey: "AIzaSyCBa8UmWUB-djAksNNvp14qoCY2y0HISoE",
+    authDomain: "gharproindia.firebaseapp.com",
+    projectId: "gharproindia",
+    storageBucket: "gharproindia.firebasestorage.app",
+    messagingSenderId: "374168845849",
+    appId: "1:374168845849:web:36aeca99558917c34ff488"
 };
+try { firebase.initializeApp(firebaseConfig); } catch(e) { console.log("Firebase error", e); }
+const db = firebase.firestore();
+const auth = firebase.auth();
 
-function showToast(msg) {
+// ════════════════════════════════════════════════════════════
+// GLOBALS
+// ════════════════════════════════════════════════════════════
+let currentUser = null;
+let isLoginMode = true;
+
+function showToast(msg, err = false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
+    t.className = 'toast ' + (err ? 'error' : 'success');
     t.style.display = 'block';
-    setTimeout(() => t.style.display = 'none', 3000);
+    setTimeout(() => t.style.display = 'none', 4000);
 }
 
-// ═══════════════════════════════════════════════════════════
-// 📂 OPEN CATEGORY MODAL
-// ═══════════════════════════════════════════════════════════
-window.openCategory = function(category) {
-    const partners = PARTNERS[category];
-    if (!partners || partners.length === 0) {
-        showToast('No partners available in this category');
-        return;
+// ════════════════════════════════════════════════════════════
+// AUTHENTICATION
+// ════════════════════════════════════════════════════════════
+window.toggleAuthMode = function() {
+    isLoginMode = !isLoginMode;
+    const btn = document.getElementById('loginBtn');
+    const toggle = document.getElementById('authToggle');
+    if (isLoginMode) {
+        btn.innerHTML = '<i class="fas fa-lock"></i> Login';
+        toggle.innerHTML = 'Don\'t have an account? <strong style="color:#FF6B35;">Create Account</strong>';
+    } else {
+        btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+        toggle.innerHTML = 'Already have an account? <strong style="color:#FF6B35;">Login</strong>';
     }
+    document.getElementById('loginError').style.display = 'none';
+};
 
-    // Set title based on category
-    const titles = {
-        'flights': 'Flights',
-        'hotels': 'Hotels',
-        'esim': 'eSIM & Data',
-        'transfers': 'Airport Transfers',
-        'cars': 'Car Rentals',
-        'activities': 'Activities & Tickets',
-        'help': 'Travel Help',
-        'gifts': 'Gift Cards'
-    };
+window.loginUser = async function() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPassword').value.trim();
+    const errEl = document.getElementById('loginError');
+    errEl.style.display = 'none';
+
+    if (!email || !pass) { errEl.textContent = '❌ Enter email & password'; errEl.style.display = 'block'; return; }
+    if (pass.length < 6) { errEl.textContent = '❌ Password min 6 chars'; errEl.style.display = 'block'; return; }
     
-    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-plane"></i> ${titles[category] || 'Partners'}`;
+    document.getElementById('loginBtn').disabled = true;
+    try {
+        let userCred;
+        if (isLoginMode) userCred = await auth.signInWithEmailAndPassword(email, pass);
+        else userCred = await auth.createUserWithEmailAndPassword(email, pass);
+        currentUser = userCred.user;
+        showMainApp();
+    } catch (error) {
+        errEl.textContent = '❌ ' + error.message; errEl.style.display = 'block';
+    }
+    document.getElementById('loginBtn').disabled = false;
+};
 
-    // Render partner list
-    let html = '';
-    partners.forEach(partner => {
-        html += `
-            <a href="${partner.link}" target="_blank" class="partner-item">
-                <div class="partner-info">
-                    <span class="p-name"><i class="fas ${partner.icon}" style="color:#4ECDC4; margin-right:8px;"></i>${partner.name}</span>
-                    <span class="p-desc">${partner.desc}</span>
-                </div>
-                <i class="fas fa-chevron-right partner-arrow"></i>
-            </a>
-        `;
+window.googleLogin = async function() {
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const result = await auth.signInWithPopup(provider);
+        currentUser = result.user;
+        showMainApp();
+    } catch (error) { showToast('❌ ' + error.message, true); }
+};
+
+function checkSession() {
+    auth.onAuthStateChanged(user => {
+        if (user) { currentUser = user; showMainApp(); }
     });
+}
 
-    document.getElementById('partnerList').innerHTML = html;
-    document.getElementById('serviceModal').classList.add('show');
+function showMainApp() {
+    document.getElementById('loginOverlay').classList.add('hidden');
+    document.getElementById('mainApp').style.display = 'block';
+    
+    if (currentUser && currentUser.email) {
+        document.getElementById('userEmailDisplay').textContent = currentUser.email;
+    }
+    
+    updateDateTime();
+    setInterval(updateDateTime, 30000);
+    showToast('✅ Welcome to NnlGharPro!');
+}
+
+window.logoutUser = function() {
+    auth.signOut();
+    currentUser = null;
+    document.getElementById('mainApp').style.display = 'none';
+    document.getElementById('loginOverlay').classList.remove('hidden');
+    showToast('Logged out');
 };
 
-window.closeModal = function() {
-    document.getElementById('serviceModal').classList.remove('show');
-};
-
-document.getElementById('serviceModal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-});
+// DATE/TIME
+function updateDateTime() {
+    const now = new Date();
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('en-IN', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+    let h = now.getHours();
+    const m = now.getMinutes().toString().padStart(2, '0');
+    const ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    document.getElementById('currentTime').textContent = h + ':' + m + ' ' + ap;
+}
 
 // PWA Install Logic (For iPhone)
 function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
@@ -273,6 +288,10 @@ if (isIOS() && !isInStandaloneMode()) {
         document.getElementById('pwa-banner').style.display = 'block';
     }, 3000);
 }
+
+// INIT
+checkSession();
+updateDateTime();
 </script>
 </body>
 </html>
