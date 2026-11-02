@@ -41,11 +41,16 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 .service-btn { border-radius: 16px; padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); }
 .service-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
 .service-btn i { font-size: 32px; margin-bottom: 12px; }
-.s-travel { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
-.s-esim { background: linear-gradient(135deg, #065f46, #10b981); }
-.s-rides { background: linear-gradient(135deg, #b45309, #f59e0b); }
-.s-gifts { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+
+/* Colors */
+.s-flights { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
 .s-hotels { background: linear-gradient(135deg, #831843, #db2777); }
+.s-esim { background: linear-gradient(135deg, #065f46, #10b981); }
+.s-transfers { background: linear-gradient(135deg, #b45309, #f59e0b); }
+.s-cars { background: linear-gradient(135deg, #4c1d95, #8b5cf6); }
+.s-activities { background: linear-gradient(135deg, #9f1239, #f43f5e); }
+.s-help { background: linear-gradient(135deg, #1f2937, #4b5563); }
+.s-gifts { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
 
 /* FOOTER */
 .footer { text-align: center; padding: 30px 0 15px 0; font-size: 12px; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 30px; }
@@ -55,15 +60,18 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 16px; }
 .modal-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.modal-box { background: #1a1a2e; padding: 24px; border-radius: 20px; max-width: 400px; width: 100%; border: 1px solid rgba(255,255,255,0.1); text-align: center; animation: slideUp 0.3s ease; }
+.modal-box { background: #1a1a2e; padding: 24px; border-radius: 20px; max-width: 420px; width: 100%; border: 1px solid rgba(255,255,255,0.1); text-align: center; animation: slideUp 0.3s ease; max-height: 85vh; overflow-y: auto; }
 @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 .modal-header h3 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
 .close-btn { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 22px; cursor: pointer; transition: 0.3s; }
 .close-btn:hover { color: #FF4757; }
-.affiliate-banner { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 13px; color: rgba(78,205,196,0.9); border: 1px dashed rgba(78,205,196,0.3); }
-.action-btn { display: inline-block; width: 100%; padding: 16px; background: linear-gradient(135deg, #4ECDC4, #44B3A8); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px; transition: 0.3s; border: none; cursor: pointer; }
-.action-btn:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(78,205,196,0.4); }
+.partner-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; text-align: left; }
+.partner-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.3s; text-decoration: none; color: #fff; }
+.partner-item:hover { background: rgba(255,255,255,0.08); border-color: #4ECDC4; }
+.partner-info .p-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; display: block; }
+.partner-info .p-desc { font-size: 11px; color: rgba(255,255,255,0.5); }
+.partner-arrow { color: #4ECDC4; font-size: 18px; }
 
 /* TOAST */
 .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); color: #fff; padding: 12px 24px; border-radius: 30px; display: none; font-size: 14px; z-index: 10000; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
@@ -80,46 +88,41 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
     <div class="header">
         <div class="logo-text">🌍 NnlGharPro Global</div>
         <div class="user-info">
-            <i class="fas fa-globe" style="color:#4ECDC4;"></i> International
+            <i class="fas fa-globe" style="color:#4ECDC4;"></i> Worldwide
         </div>
     </div>
 
     <div class="banner">
-        <h2>Welcome to NnlGharPro Global</h2>
-        <p>Your one-stop app for worldwide travel, connectivity, and digital services.</p>
+        <h2>Your Global Travel Partner</h2>
+        <p>Book flights, hotels, activities, and more from anywhere in the world.</p>
     </div>
 
-    <div class="section-title"><i class="fas fa-plane"></i> Explore Global Services</div>
+    <div class="section-title"><i class="fas fa-plane"></i> Explore Services</div>
     
     <div class="service-grid">
-        <!-- Travel -->
-        <div class="service-btn s-travel" onclick="openModal('travel')">
-            <i class="fas fa-plane-departure"></i>
-            Flights
+        <div class="service-btn s-flights" onclick="openCategory('flights')">
+            <i class="fas fa-plane-departure"></i> Flights
         </div>
-        
-        <!-- Hotels -->
-        <div class="service-btn s-hotels" onclick="openModal('hotels')">
-            <i class="fas fa-hotel"></i>
-            Hotels
+        <div class="service-btn s-hotels" onclick="openCategory('hotels')">
+            <i class="fas fa-hotel"></i> Hotels
         </div>
-
-        <!-- eSIM -->
-        <div class="service-btn s-esim" onclick="openModal('esim')">
-            <i class="fas fa-sim-card"></i>
-            eSIM & Data
+        <div class="service-btn s-esim" onclick="openCategory('esim')">
+            <i class="fas fa-sim-card"></i> eSIM & Data
         </div>
-        
-        <!-- Rides -->
-        <div class="service-btn s-rides" onclick="openModal('rides')">
-            <i class="fas fa-car"></i>
-            Rides & Delivery
+        <div class="service-btn s-transfers" onclick="openCategory('transfers')">
+            <i class="fas fa-shuttle-van"></i> Transfers
         </div>
-        
-        <!-- Gift Cards -->
-        <div class="service-btn s-gifts" onclick="openModal('gifts')">
-            <i class="fas fa-gift"></i>
-            Gift Cards
+        <div class="service-btn s-cars" onclick="openCategory('cars')">
+            <i class="fas fa-car"></i> Car Rentals
+        </div>
+        <div class="service-btn s-activities" onclick="openCategory('activities')">
+            <i class="fas fa-ticket-alt"></i> Activities
+        </div>
+        <div class="service-btn s-help" onclick="openCategory('help')">
+            <i class="fas fa-life-ring"></i> Travel Help
+        </div>
+        <div class="service-btn s-gifts" onclick="openCategory('gifts')">
+            <i class="fas fa-gift"></i> Gift Cards
         </div>
     </div>
 
@@ -133,20 +136,12 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 <div class="modal-overlay" id="serviceModal">
     <div class="modal-box">
         <div class="modal-header">
-            <h3 id="modalTitle"><i class="fas fa-plane"></i> Service</h3>
+            <h3 id="modalTitle"><i class="fas fa-plane"></i> Select Partner</h3>
             <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <div class="modal-body">
-            <div id="modalIcon" style="font-size: 48px; color: #4ECDC4; margin-bottom: 15px;"></div>
-            <p id="modalDesc" style="font-size: 14px; color: #fff; margin-bottom: 10px; line-height: 1.5;"></p>
-            
-            <div class="affiliate-banner" id="modalPartner"></div>
-            
-            <div id="apiResults" style="display:none; text-align:left; margin-bottom:15px;"></div>
-
-            <!-- YAHAN AAPKA AFFILIATE LINK AAYEGA -->
-            <a href="#" id="modalLink" target="_blank" class="action-btn">Continue to Secure Partner →</a>
-            <p style="font-size:10px; color:rgba(255,255,255,0.4); margin-top:10px;" id="redirectNote">You will be redirected to our verified partner site to complete your booking securely.</p>
+        <p style="font-size:12px; color:rgba(255,255,255,0.5); margin-bottom:15px; text-align:left;">Choose your preferred partner. You will be redirected to their secure booking page.</p>
+        <div class="partner-list" id="partnerList">
+            <!-- Partners will be dynamically added here -->
         </div>
     </div>
 </div>
@@ -166,46 +161,50 @@ body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f
 
 <script>
 // ═══════════════════════════════════════════════════════════
-// ⚙️ BACKEND API URL (Yahan apna Cloudflare Worker ka URL daalein)
+// 🔗 PARTNER LINKS (Yahan aap apne saare 22 links daal sakte hain)
 // ═══════════════════════════════════════════════════════════
-const BACKEND_URL = 'https://nnlghaproglobal-travel-api.nnlgharpro.workers.dev';
-
-const SERVICES = {
-    'travel': {
-        title: 'Flights',
-        icon: 'fa-plane-departure',
-        desc: 'Book flights globally at the best prices.',
-        partner: '✅ 100% Secure Booking | Best Price Guaranteed',
-        link: '#'
-    },
-    'hotels': {
-        title: 'Hotels',
-        icon: 'fa-hotel',
-        desc: 'Book hotels globally at the best prices.',
-        partner: '✅ 100% Secure Booking | Best Price Guaranteed',
-        link: '#'
-    },
-    'esim': {
-        title: 'eSIM & Data',
-        icon: 'fa-sim-card',
-        desc: 'Stay connected anywhere in the world with instant eSIM. No roaming charges!',
-        partner: '✅ 100% Secure | Instant Activation',
-        link: 'https://www.airalo.com'
-    },
-    'rides': {
-        title: 'Rides & Delivery',
-        icon: 'fa-car',
-        desc: 'Book rides and food delivery in 180+ countries with a single tap.',
-        partner: '✅ 24/7 Support | Safe Rides',
-        link: 'https://elife.com'
-    },
-    'gifts': {
-        title: 'Gift Cards',
-        icon: 'fa-gift',
-        desc: 'Buy global gift cards and mobile top-ups instantly from anywhere.',
-        partner: '✅ Instant Delivery | 100% Secure',
-        link: 'https://www.bitrefill.com'
-    }
+const PARTNERS = {
+    'flights': [
+        { name: 'Aviasales', desc: 'Search and book cheap flights worldwide', link: 'https://aviasales.tp.st/1aY8so1f', icon: 'fa-plane' },
+        { name: 'Kiwitaxi', desc: 'Airport transfers and taxis', link: 'https://kiwitaxi.tp.st/pStXEaav', icon: 'fa-taxi' }
+    ],
+    'hotels': [
+        { name: 'Klook', desc: 'Hotels, activities and more', link: 'https://klook.tp.st/0q4aFwQZ', icon: 'fa-hotel' },
+        { name: 'Kkday', desc: 'Asia hotels and experiences', link: 'https://kkday.tp.st/FgcGAHH6', icon: 'fa-bed' }
+    ],
+    'esim': [
+        { name: 'Airalo', desc: 'World\'s largest eSIM store', link: 'https://airalo.tp.st/gtaOTTYD', icon: 'fa-sim-card' },
+        { name: 'Yesim', desc: 'Global eSIM data plans', link: 'https://yesim.tp.st/hLLvYRAi', icon: 'fa-wifi' },
+        { name: 'Saily', desc: 'Instant eSIM for travelers', link: 'https://saily.tp.st/Ww4HXtfc', icon: 'fa-globe' },
+        { name: 'Drimsim', desc: '197 countries eSIM', link: 'https://drimsim.tp.st/W9rS2EYx', icon: 'fa-signal' }
+    ],
+    'transfers': [
+        { name: 'Kiwitaxi', desc: 'Private airport transfers', link: 'https://kiwitaxi.tp.st/pStXEaav', icon: 'fa-shuttle-van' },
+        { name: 'GetTransfer', desc: '150+ countries transfers', link: 'https://gettransfer.tp.st/DOeIsXxA', icon: 'fa-car-side' }
+    ],
+    'cars': [
+        { name: 'Localrent', desc: 'Local car rentals', link: 'https://localrent.tp.st/J8jL1XqQ', icon: 'fa-car' },
+        { name: 'GetRentacar', desc: 'Car rental marketplace', link: 'https://getrentacar.tp.st/1nqRaSLJ', icon: 'fa-key' },
+        { name: 'EconomyBookings', desc: 'International car rentals', link: 'https://economybookings.tp.st/3jCWKEPj', icon: 'fa-car' },
+        { name: 'AutoEurope', desc: 'Car rental in Europe', link: 'https://autoeurope.tp.st/bnPCZYiR', icon: 'fa-road' },
+        { name: 'Qeeq', desc: 'Global car rental deals', link: 'https://qeeq.tp.st/aGB22JKY', icon: 'fa-car' },
+        { name: 'BikesBooking', desc: 'Bike rentals worldwide', link: 'https://bikesbooking.tp.st/H9nx54zj', icon: 'fa-motorcycle' }
+    ],
+    'activities': [
+        { name: 'Klook', desc: 'Tours, tickets & activities', link: 'https://klook.tp.st/0q4aFwQZ', icon: 'fa-ticket-alt' },
+        { name: 'Tiqets', desc: 'Museum & attraction tickets', link: 'https://tiqets.tp.st/Y6iqtPd5', icon: 'fa-ticket-alt' },
+        { name: 'GoCity', desc: 'Multi-city attraction passes', link: 'https://gocity.tp.st/pZd4BwLm', icon: 'fa-city' },
+        { name: 'Kkday', desc: 'Asia tours and experiences', link: 'https://kkday.tp.st/FgcGAHH6', icon: 'fa-map-marked-alt' },
+        { name: 'Intui', desc: 'Travel services & transfers', link: 'https://intui.tp.st/9DnIQwKk', icon: 'fa-concierge-bell' }
+    ],
+    'help': [
+        { name: 'AirHelp', desc: 'Flight delay compensation', link: 'https://airhelp.tp.st/JVoFm2a6', icon: 'fa-plane-slash' },
+        { name: 'Compensair', desc: 'Flight cancellation compensation', link: 'https://compensair.tp.st/4pdFQqae', icon: 'fa-exclamation-triangle' },
+        { name: 'RadicalStorage', desc: 'Luggage storage worldwide', link: 'https://radicalstorage.tp.st/ZatX1AgP', icon: 'fa-suitcase' }
+    ],
+    'gifts': [
+        { name: 'Klook', desc: 'Gift cards and experiences', link: 'https://klook.tp.st/0q4aFwQZ', icon: 'fa-gift' }
+    ]
 };
 
 function showToast(msg) {
@@ -215,73 +214,45 @@ function showToast(msg) {
     setTimeout(() => t.style.display = 'none', 3000);
 }
 
-window.openModal = async function(serviceKey) {
-    const service = SERVICES[serviceKey];
-    if (!service) return;
-
-    // Reset modal
-    document.getElementById('modalTitle').innerHTML = `<i class="fas ${service.icon}"></i> ${service.title}`;
-    document.getElementById('modalIcon').innerHTML = `<i class="fas ${service.icon}"></i>`;
-    document.getElementById('modalDesc').textContent = service.desc;
-    document.getElementById('modalPartner').textContent = service.partner;
-    document.getElementById('apiResults').style.display = 'none';
-    document.getElementById('apiResults').innerHTML = '';
-    document.getElementById('modalLink').style.display = 'block';
-    document.getElementById('redirectNote').style.display = 'block';
-
-    const linkElement = document.getElementById('modalLink');
-    linkElement.href = service.link;
-
-    // Agar Travel ya Hotels hai, toh API se data fetch karein
-    if (serviceKey === 'travel' || serviceKey === 'hotels') {
-        document.getElementById('modalDesc').textContent = `Fetching live ${service.title.toLowerCase()} prices...`;
-        document.getElementById('apiResults').style.display = 'block';
-        document.getElementById('modalLink').style.display = 'none';
-        document.getElementById('redirectNote').style.display = 'none';
-
-        let endpoint = serviceKey === 'travel' ? '/flights?origin=DEL&destination=BOM' : '/hotels?city=Delhi';
-        
-        try {
-            const res = await fetch(`${BACKEND_URL}${endpoint}`);
-            const data = await res.json();
-            
-            if (data.success) {
-                let items = serviceKey === 'travel' ? data.data.flights : data.data.hotels;
-                let html = '';
-                
-                if (!items || items.length === 0) {
-                    html = '<p style="text-align:center;color:rgba(255,255,255,0.5);">No results found for this route.</p>';
-                } else {
-                    items.forEach(item => {
-                        if (serviceKey === 'travel') {
-                            html += `<div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.1);">
-                                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                                    <span style="font-weight:600;">${item.airline}</span>
-                                    <span style="color:#4ECDC4; font-weight:800;">₹${item.price}</span>
-                                </div>
-                                <div style="font-size:11px; color:rgba(255,255,255,0.5);">Flight: ${item.flight_number} • ${item.departure_at ? item.departure_at.split('T')[0] : 'N/A'}</div>
-                            </div>`;
-                        } else {
-                            html += `<div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.1);">
-                                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                                    <span style="font-weight:600;">${item.name}</span>
-                                    <span style="color:#4ECDC4; font-weight:800;">${item.price}</span>
-                                </div>
-                                <div style="font-size:11px; color:rgba(255,255,255,0.5);">Rating: ⭐ ${item.rating}</div>
-                            </div>`;
-                        }
-                    });
-                }
-                document.getElementById('apiResults').innerHTML = html;
-                document.getElementById('modalDesc').textContent = `Live ${service.title} Results:`;
-            } else {
-                document.getElementById('apiResults').innerHTML = `<p style="color:#FF4757; text-align:center;">Error: ${data.error || 'Could not fetch data'}</p>`;
-            }
-        } catch (e) {
-            document.getElementById('apiResults').innerHTML = `<p style="color:#FF4757; text-align:center;">Network Error. Please try again later.</p>`;
-        }
+// ═══════════════════════════════════════════════════════════
+// 📂 OPEN CATEGORY MODAL
+// ═══════════════════════════════════════════════════════════
+window.openCategory = function(category) {
+    const partners = PARTNERS[category];
+    if (!partners || partners.length === 0) {
+        showToast('No partners available in this category');
+        return;
     }
 
+    // Set title based on category
+    const titles = {
+        'flights': 'Flights',
+        'hotels': 'Hotels',
+        'esim': 'eSIM & Data',
+        'transfers': 'Airport Transfers',
+        'cars': 'Car Rentals',
+        'activities': 'Activities & Tickets',
+        'help': 'Travel Help',
+        'gifts': 'Gift Cards'
+    };
+    
+    document.getElementById('modalTitle').innerHTML = `<i class="fas fa-plane"></i> ${titles[category] || 'Partners'}`;
+
+    // Render partner list
+    let html = '';
+    partners.forEach(partner => {
+        html += `
+            <a href="${partner.link}" target="_blank" class="partner-item">
+                <div class="partner-info">
+                    <span class="p-name"><i class="fas ${partner.icon}" style="color:#4ECDC4; margin-right:8px;"></i>${partner.name}</span>
+                    <span class="p-desc">${partner.desc}</span>
+                </div>
+                <i class="fas fa-chevron-right partner-arrow"></i>
+            </a>
+        `;
+    });
+
+    document.getElementById('partnerList').innerHTML = html;
     document.getElementById('serviceModal').classList.add('show');
 };
 
