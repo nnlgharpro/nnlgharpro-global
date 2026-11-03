@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<title>NnlGharPro - Book Trusted Services in India</title>
+<title>NnlGharPro - Book Trusted Services</title>
 <meta name="google-site-verification" content="w6qm7tonraRh8hHgflqJmZaubqzFv7_CYz-vrh1Zbmw" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -33,17 +33,24 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
 .service-btn { border-radius: 16px; padding: 20px 5px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 11px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90px; }
 .service-btn:hover { transform: translateY(-3px); }
 .service-btn i { font-size: 26px; margin-bottom: 8px; }
+
+/* Colors */
 .s-recharge { background: linear-gradient(135deg, #5F259F, #8B5CF6); }
+.s-insurance { background: linear-gradient(135deg, #0d47a1, #1976d2); }
+.s-food-restaurant { background: linear-gradient(135deg, #e63946, #f4a261); }
 .s-grocery { background: linear-gradient(135deg, #0077b6, #00b4d8); }
 .s-fashion { background: linear-gradient(135deg, #f77f00, #fcbf49); }
 .s-electronics { background: linear-gradient(135deg, #2a9d8f, #52b788); }
 .s-home-decor { background: linear-gradient(135deg, #9b5de5, #f15bb5); }
 .s-beauty { background: linear-gradient(135deg, #ef476f, #ff6b6b); }
 .s-health { background: linear-gradient(135deg, #118ab2, #06d6a0); }
-.s-food-restaurant { background: linear-gradient(135deg, #e63946, #f4a261); }
-.s-insurance { background: linear-gradient(135deg, #0d47a1, #1976d2); }
 .s-immigration { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
 .s-services { background: linear-gradient(135deg, #e85d04, #dc2f02); }
+
+/* International Tabs */
+.s-canada { background: linear-gradient(135deg, #be123c, #f43f5e); }
+.s-europe { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+.s-australia { background: linear-gradient(135deg, #b45309, #f59e0b); }
 
 /* FOOTER & CONTACT */
 .footer { text-align: center; padding: 20px 0; border-top: 2px solid rgba(78, 205, 196, 0.15); margin-top: 20px; }
@@ -70,7 +77,7 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
     <div class="header">
         <div class="logo-text">🏠 NnlGharPro</div>
         <div class="user-info">
-            <span>🇮🇳 India</span>
+            <span>🌍 International</span>
         </div>
     </div>
 
@@ -92,6 +99,14 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
         <div class="service-btn s-services" onclick="showToast('Local services coming soon!')"><i class="fas fa-wrench"></i> Services</div>
         <div class="service-btn s-health" onclick="showToast('Health services coming soon!')"><i class="fas fa-heartbeat"></i> Health</div>
         <div class="service-btn s-electronics" onclick="showToast('Electronics ONDC integration in progress!')"><i class="fas fa-laptop"></i> Electronics</div>
+    </div>
+
+    <!-- INTERNATIONAL SECTION -->
+    <div class="section-title"><i class="fas fa-globe" style="color:#4ECDC4;"></i> International Services</div>
+    <div class="service-grid">
+        <div class="service-btn s-canada" onclick="showToast('Canada services coming soon!')"><i class="fas fa-maple-leaf"></i> Canada</div>
+        <div class="service-btn s-europe" onclick="showToast('Europe services coming soon!')"><i class="fas fa-landmark"></i> Europe</div>
+        <div class="service-btn s-australia" onclick="showToast('Australia services coming soon!')"><i class="fas fa-kangaroo"></i> Australia</div>
     </div>
 
     <div class="footer">
