@@ -68,6 +68,15 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
 
 /* PWA BANNER */
 #pwa-banner { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1a1a2e; border: 1px solid #4ECDC4; padding: 15px; border-radius: 15px; z-index: 99999; width: 90%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+
+/* MODALS */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 16px; }
+.modal-overlay.show { display: flex; }
+.modal-box { background: #1a1a2e; padding: 24px; border-radius: 20px; max-width: 420px; width: 100%; border: 1px solid rgba(255,255,255,0.08); animation: slideUp 0.3s ease; max-height: 85vh; overflow-y: auto; }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.modal-header h3 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
+.close-btn { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 22px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -105,9 +114,9 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
     <!-- INTERNATIONAL SECTION -->
     <div class="section-title"><i class="fas fa-globe" style="color:#4ECDC4;"></i> International Services</div>
     <div class="service-grid">
-        <div class="service-btn s-canada" onclick="showToast('Canada services coming soon!')"><i class="fas fa-maple-leaf"></i> Canada</div>
-        <div class="service-btn s-europe" onclick="showToast('Europe services coming soon!')"><i class="fas fa-landmark"></i> Europe</div>
-        <div class="service-btn s-australia" onclick="showToast('Australia services coming soon!')"><i class="fas fa-kangaroo"></i> Australia</div>
+        <div class="service-btn s-canada" onclick="openCountryModal('Canada')"><i class="fas fa-maple-leaf"></i> Canada</div>
+        <div class="service-btn s-europe" onclick="openCountryModal('Europe')"><i class="fas fa-landmark"></i> Europe</div>
+        <div class="service-btn s-australia" onclick="openCountryModal('Australia')"><i class="fas fa-kangaroo"></i> Australia</div>
     </div>
 
     <div class="footer">
@@ -122,6 +131,19 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
             <strong><i class="fas fa-phone"></i> Contact Us:</strong>
             📱 <a href="tel:+919588562553">+91 95885 62553</a><br>
             📧 <a href="mailto:nnlgharpro@gmail.com">nnlgharpro@gmail.com</a>
+        </div>
+    </div>
+</div>
+
+<!-- COUNTRY SERVICES MODAL -->
+<div class="modal-overlay" id="countryModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="countryModalTitle"><i class="fas fa-globe"></i> Services</h3>
+            <button class="close-btn" onclick="closeCountryModal()">✕</button>
+        </div>
+        <div class="service-grid" id="countryServiceGrid">
+            <!-- Services will be dynamically added here -->
         </div>
     </div>
 </div>
@@ -161,6 +183,54 @@ function updateDateTime() {
     h = h % 12 || 12;
     document.getElementById('currentTime').textContent = h + ':' + m + ' ' + ap;
 }
+
+// ════════════════════════════════════════════════════════════
+// COUNTRY MODAL LOGIC
+// ════════════════════════════════════════════════════════════
+window.openCountryModal = function(country) {
+    document.getElementById('countryModalTitle').innerHTML = `<i class="fas fa-globe"></i> ${country} Services`;
+    
+    // Yahan aap har desh ke liye alag services list kar sakte hain
+    const services = {
+        'Canada': [
+            { name: 'Food', icon: 'fa-utensils', color: 's-food-restaurant' },
+            { name: 'Grocery', icon: 'fa-shopping-basket', color: 's-grocery' },
+            { name: 'Rides', icon: 'fa-car', color: 's-services' },
+            { name: 'eSIM', icon: 'fa-sim-card', color: 's-recharge' }
+        ],
+        'Europe': [
+            { name: 'Food', icon: 'fa-utensils', color: 's-food-restaurant' },
+            { name: 'Hotels', icon: 'fa-hotel', color: 's-home-decor' },
+            { name: 'Travel', icon: 'fa-plane', color: 's-europe' },
+            { name: 'eSIM', icon: 'fa-sim-card', color: 's-recharge' }
+        ],
+        'Australia': [
+            { name: 'Food', icon: 'fa-utensils', color: 's-food-restaurant' },
+            { name: 'Travel', icon: 'fa-plane', color: 's-australia' },
+            { name: 'eSIM', icon: 'fa-sim-card', color: 's-recharge' },
+            { name: 'Car Rental', icon: 'fa-car', color: 's-services' }
+        ]
+    };
+
+    const countryServices = services[country] || [];
+    let html = '';
+    countryServices.forEach(s => {
+        html += `<div class="service-btn ${s.color}" onclick="showToast('${s.name} service for ${country} coming soon!')">
+            <i class="fas ${s.icon}"></i> ${s.name}
+        </div>`;
+    });
+
+    document.getElementById('countryServiceGrid').innerHTML = html;
+    document.getElementById('countryModal').classList.add('show');
+};
+
+window.closeCountryModal = function() {
+    document.getElementById('countryModal').classList.remove('show');
+};
+
+document.getElementById('countryModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCountryModal();
+});
 
 // PWA Install Logic (For iPhone)
 function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
