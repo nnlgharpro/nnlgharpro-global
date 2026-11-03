@@ -98,21 +98,8 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
         </div>
     </div>
 
-    <div class="section-title"><i class="fas fa-tools" style="color:#FF6B35;"></i> Select Service</div>
-    <div class="service-grid">
-        <div class="service-btn s-recharge" onclick="showToast('Recharge service coming soon!')"><i class="fas fa-mobile-alt"></i> Recharge</div>
-        <div class="service-btn s-insurance" onclick="showToast('Insurance service coming soon!')"><i class="fas fa-shield-alt"></i> Insurance</div>
-        <div class="service-btn s-food-restaurant" onclick="showToast('Food ONDC integration in progress!')"><i class="fas fa-utensils"></i> Food</div>
-        <div class="service-btn s-grocery" onclick="showToast('Grocery ONDC integration in progress!')"><i class="fas fa-shopping-basket"></i> Grocery</div>
-        <div class="service-btn s-fashion" onclick="showToast('Fashion ONDC integration in progress!')"><i class="fas fa-tshirt"></i> Fashion</div>
-        <div class="service-btn s-immigration" onclick="showToast('Immigration service coming soon!')"><i class="fas fa-passport"></i> Immigration</div>
-        <div class="service-btn s-services" onclick="showToast('Local services coming soon!')"><i class="fas fa-wrench"></i> Services</div>
-        <div class="service-btn s-health" onclick="showToast('Health services coming soon!')"><i class="fas fa-heartbeat"></i> Health</div>
-        <div class="service-btn s-electronics" onclick="showToast('Electronics ONDC integration in progress!')"><i class="fas fa-laptop"></i> Electronics</div>
-    </div>
-
-    <!-- INTERNATIONAL SECTION -->
-    <div class="section-title"><i class="fas fa-globe" style="color:#4ECDC4;"></i> International Services</div>
+    <!-- INTERNATIONAL SECTION (Ab yeh hi home page hai) -->
+    <div class="section-title"><i class="fas fa-globe" style="color:#4ECDC4;"></i> Select Your Region</div>
     <div class="service-grid">
         <div class="service-btn s-canada" onclick="openCountryModal('Canada')"><i class="fas fa-maple-leaf"></i> Canada</div>
         <div class="service-btn s-europe" onclick="openCountryModal('Europe')"><i class="fas fa-landmark"></i> Europe</div>
@@ -190,7 +177,6 @@ function updateDateTime() {
 window.openCountryModal = function(country) {
     document.getElementById('countryModalTitle').innerHTML = `<i class="fas fa-globe"></i> ${country} Services`;
     
-    // Yahan aap har desh ke liye alag services list kar sakte hain
     const services = {
         'Canada': [
             { name: 'Food', icon: 'fa-utensils', color: 's-food-restaurant' },
