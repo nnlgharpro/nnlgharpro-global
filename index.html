@@ -10,39 +10,16 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <link rel="manifest" href="manifest.json">
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; padding: 12px; color: #fff; -webkit-user-select: none; user-select: none; }
 input, textarea, select { -webkit-user-select: text; user-select: text; }
 .container { max-width: 480px; margin: 0 auto; }
 
-/* LOGIN */
-.login-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
-.login-overlay.hidden { display: none; }
-.login-box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; max-width: 350px; width: 100%; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-.login-box h2 { font-size: 24px; margin-bottom: 20px; }
-.login-box input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; outline: none; }
-.login-box input:focus { border-color: #FF6B35; }
-.login-box .btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, #FF6B35, #FF8C42); border: none; border-radius: 10px; color: #fff; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 5px; transition: 0.3s; }
-.login-box .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
-.login-box .btn-secondary { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-weight: 600; cursor: pointer; margin-top: 5px; transition: 0.3s; }
-.login-box .btn-secondary:hover { background: rgba(255,255,255,0.1); }
-.login-box .login-error { color: #FF4757; font-size: 12px; margin-top: 5px; display: none; word-break: break-word; }
-.login-box .auth-toggle { color: rgba(255,255,255,0.4); font-size: 12px; cursor: pointer; margin-top: 10px; display: block; transition: 0.3s; }
-.login-box .auth-toggle:hover { color: #FF6B35; }
-.login-box .login-sub-text { color: rgba(255,255,255,0.5); margin-bottom: 20px; }
-
 /* HEADER */
-#mainApp { display: none; }
-.header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; flex-wrap: wrap; gap: 10px; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
 .logo-text { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #FF6B35, #FFD93D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.user-info { font-size: 12px; background: rgba(255,255,255,0.05); padding: 4px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
-.user-info button { background: #FF4757; border: none; color: #fff; padding: 4px 12px; border-radius: 12px; cursor: pointer; font-size: 10px; font-weight: 600; }
+.user-info { font-size: 12px; background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
 
 /* ALERT BAR */
 .alert-bar { background: rgba(255,255,255,0.04); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 10px 14px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
@@ -89,28 +66,11 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
 
 <div class="toast" id="toast"></div>
 
-<!-- LOGIN -->
-<div class="login-overlay" id="loginOverlay">
-    <div class="login-box">
-        <h2>🏠 NnlGharPro</h2>
-        <p class="login-sub-text">Login to book trusted services</p>
-        <input type="email" id="loginEmail" placeholder="Email Address">
-        <input type="password" id="loginPassword" placeholder="Password (min 6 chars)">
-        <button class="btn-primary" id="loginBtn" onclick="loginUser()"><i class="fas fa-lock"></i> Login</button>
-        <span class="auth-toggle" id="authToggle" onclick="toggleAuthMode()">Don't have an account? <strong style="color:#FF6B35;">Create Account</strong></span>
-        <div style="margin-top:15px;"><button class="btn-secondary" id="googleLoginBtn" onclick="googleLogin()"><i class="fab fa-google" style="color:#EA4335;"></i> Continue with Google</button></div>
-        <div class="login-error" id="loginError">❌ Invalid credentials</div>
-        <p style="font-size:10px; color:rgba(255,255,255,0.1); margin-top:12px;">🔒 Secure • Powered by NnlGharPro</p>
-    </div>
-</div>
-
-<!-- MAIN APP -->
 <div class="container" id="mainApp">
     <div class="header">
         <div class="logo-text">🏠 NnlGharPro</div>
-        <div class="user-info" id="userInfo">
-            <span id="userEmailDisplay">user@nnlgharpro.in</span>
-            <button onclick="logoutUser()">Logout</button>
+        <div class="user-info">
+            <span>🇮🇳 India</span>
         </div>
     </div>
 
@@ -165,26 +125,8 @@ input, textarea, select { -webkit-user-select: text; user-select: text; }
 
 <script>
 // ════════════════════════════════════════════════════════════
-// FIREBASE SETUP
-// ════════════════════════════════════════════════════════════
-const firebaseConfig = {
-    apiKey: "AIzaSyCBa8UmWUB-djAksNNvp14qoCY2y0HISoE",
-    authDomain: "gharproindia.firebaseapp.com",
-    projectId: "gharproindia",
-    storageBucket: "gharproindia.firebasestorage.app",
-    messagingSenderId: "374168845849",
-    appId: "1:374168845849:web:36aeca99558917c34ff488"
-};
-try { firebase.initializeApp(firebaseConfig); } catch(e) { console.log("Firebase error", e); }
-const db = firebase.firestore();
-const auth = firebase.auth();
-
-// ════════════════════════════════════════════════════════════
 // GLOBALS
 // ════════════════════════════════════════════════════════════
-let currentUser = null;
-let isLoginMode = true;
-
 function showToast(msg, err = false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -192,81 +134,6 @@ function showToast(msg, err = false) {
     t.style.display = 'block';
     setTimeout(() => t.style.display = 'none', 4000);
 }
-
-// ════════════════════════════════════════════════════════════
-// AUTHENTICATION
-// ════════════════════════════════════════════════════════════
-window.toggleAuthMode = function() {
-    isLoginMode = !isLoginMode;
-    const btn = document.getElementById('loginBtn');
-    const toggle = document.getElementById('authToggle');
-    if (isLoginMode) {
-        btn.innerHTML = '<i class="fas fa-lock"></i> Login';
-        toggle.innerHTML = 'Don\'t have an account? <strong style="color:#FF6B35;">Create Account</strong>';
-    } else {
-        btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-        toggle.innerHTML = 'Already have an account? <strong style="color:#FF6B35;">Login</strong>';
-    }
-    document.getElementById('loginError').style.display = 'none';
-};
-
-window.loginUser = async function() {
-    const email = document.getElementById('loginEmail').value.trim();
-    const pass = document.getElementById('loginPassword').value.trim();
-    const errEl = document.getElementById('loginError');
-    errEl.style.display = 'none';
-
-    if (!email || !pass) { errEl.textContent = '❌ Enter email & password'; errEl.style.display = 'block'; return; }
-    if (pass.length < 6) { errEl.textContent = '❌ Password min 6 chars'; errEl.style.display = 'block'; return; }
-    
-    document.getElementById('loginBtn').disabled = true;
-    try {
-        let userCred;
-        if (isLoginMode) userCred = await auth.signInWithEmailAndPassword(email, pass);
-        else userCred = await auth.createUserWithEmailAndPassword(email, pass);
-        currentUser = userCred.user;
-        showMainApp();
-    } catch (error) {
-        errEl.textContent = '❌ ' + error.message; errEl.style.display = 'block';
-    }
-    document.getElementById('loginBtn').disabled = false;
-};
-
-window.googleLogin = async function() {
-    try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const result = await auth.signInWithPopup(provider);
-        currentUser = result.user;
-        showMainApp();
-    } catch (error) { showToast('❌ ' + error.message, true); }
-};
-
-function checkSession() {
-    auth.onAuthStateChanged(user => {
-        if (user) { currentUser = user; showMainApp(); }
-    });
-}
-
-function showMainApp() {
-    document.getElementById('loginOverlay').classList.add('hidden');
-    document.getElementById('mainApp').style.display = 'block';
-    
-    if (currentUser && currentUser.email) {
-        document.getElementById('userEmailDisplay').textContent = currentUser.email;
-    }
-    
-    updateDateTime();
-    setInterval(updateDateTime, 30000);
-    showToast('✅ Welcome to NnlGharPro!');
-}
-
-window.logoutUser = function() {
-    auth.signOut();
-    currentUser = null;
-    document.getElementById('mainApp').style.display = 'none';
-    document.getElementById('loginOverlay').classList.remove('hidden');
-    showToast('Logged out');
-};
 
 // DATE/TIME
 function updateDateTime() {
@@ -290,8 +157,8 @@ if (isIOS() && !isInStandaloneMode()) {
 }
 
 // INIT
-checkSession();
 updateDateTime();
+setInterval(updateDateTime, 30000);
 </script>
 </body>
 </html>
